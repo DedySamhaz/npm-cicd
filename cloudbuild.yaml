@@ -5,19 +5,3 @@ steps:
 # Menjalankan pengujian
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'test']
-- name: 'gcr.io/$PROJECT_ID/github'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |-
-      read -r -d "" gh_comment_template << EOF
-      <details>
-        <summary>Pull Request Complete</summary>
-
-        \`\`\`
-        %s
-        \`\`\`
-      </details>
-      EOF
-
-      gh_comment=$(printf "$$gh_comment_template" ) pr review $_PR_NUMBER -R  "$$gh_comment"
