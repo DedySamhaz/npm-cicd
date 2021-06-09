@@ -1,0 +1,9 @@
+version: '3'
+services:
+  nodejs:
+    image: gcr.io/intern-infra/build:latest
+    container_name: appjs
+    ports:
+      - "8080:8080"
+
+

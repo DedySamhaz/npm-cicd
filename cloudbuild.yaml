@@ -1,7 +1,20 @@
 steps:
-# Instalasi dependencies
-- name: 'gcr.io/cloud-builders/npm'
-  args: ['install']
-# Menjalankan pengujian
-- name: 'gcr.io/cloud-builders/npm'
-  args: ['run', 'test']
+- id: 'build image'  
+  name: 'gcr.io/cloud-builders/docker'
+  dir: nodejs
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/build:latest', '.' ]
+
+- id: 'push image'
+  name: 'gcr.io/cloud-builders/docker'
+  waitFor:
+  - 'build image'
+  dir: nodejs
+  args: ['push', 'gcr.io/intern-infra/build:latest']
+
+- id: 'Deploy App'
+  name: 'gcr.io/$PROJECT_ID/deployer:latest'
+  waitFor:
+  - 'push image'
+  dir: nodejs/deploy
+  entrypoint: 'bash'
+  args: ['./run.sh']
