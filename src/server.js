@@ -10,7 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.send('Hello Dedd');
+  res.send('Hello Ddy');
 });
 
 app.listen(PORT, HOST);
